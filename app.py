@@ -60,18 +60,19 @@ def index():
     return 'Hello, World!'
 
 
-@app.route('/test', methods=['POST'])
+@app.route('/test', methods=['POST', 'GET'])
 def test():
-    from_email = Email("edmond.chuc@edmondchuc.com")
-    to_email = Email("edmond.chuc@outlook.com")
-    subject = "[www.edmondchuc.com] Sending with SendGrid is Fun"
-    content = Content("text/plain", "and easy to do anywhere, even with Python")
-    mail = Mail(from_email, subject, to_email, content)
-    response = sg.client.mail.send.post(request_body=mail.get())
-    print(response.status_code)
-    print(response.body)
-    print(response.headers)
-    return 'test completed'
+    # from_email = Email("test@example.com")
+    # to_email = Email("test2@example.com")
+    # subject = "[www.edmondchuc.com] Sending with SendGrid is Fun"
+    # content = Content("text/plain", "and easy to do anywhere, even with Python")
+    # mail = Mail(from_email, subject, to_email, content)
+    # response = sg.client.mail.send.post(request_body=mail.get())
+    # print(response.status_code)
+    # print(response.body)
+    # print(response.headers)
+    return 'API works!'
 
 if __name__ == '__main__':
-    app.run(debug=True)
+    # app.run(debug=True)
+    app.run()
