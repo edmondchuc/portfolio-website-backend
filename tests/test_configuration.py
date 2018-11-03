@@ -32,10 +32,11 @@ def run():
     result = None
     try:
         result = subprocess.run('pytest')
+        print(f'{result.returncode}')
     except:
         pass
 
-    if not result:
+    if not result.returncode:
         return True # passed
     else:
         return False # failed
