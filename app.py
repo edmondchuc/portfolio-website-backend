@@ -5,7 +5,8 @@ from flask import Flask, render_template, request
 import sendgrid
 import os
 from sendgrid.helpers.mail import *
-import _configuration as conf
+import configuration as conf
+import tests as _test
 
 # grab the SendGrid API key from the environment variable
 sg = sendgrid.SendGridAPIClient(apikey=os.environ.get('SENDGRID_API_KEY'))
@@ -30,25 +31,16 @@ def send_email_to_sendgrid(email_from, subject, email_to, content):
 
 @app.route('/contact', methods=['POST'])
 def contact():
+    # these will make up the content of the email
     first_name = request.form.get('first_name')
     last_name = request.form.get('last_name')
     email_from = request.form.get('email')
     phone = request.form.get('phone')
     message = request.form.get('message')
 
+    # subject of the email
     subject = f'[www.edmondchuc.com] New message from {first_name}'
 
-    content = Content('text/plain', f"""
-    New message received from www.edmondchuc.com
-
-    Sender's details:    
-    Name: {first_name} {last_name}
-    Email: {email_from}
-    Phone: {phone}
-
-    Message: 
-    {message}
-    """)
     content = Content(
         'text/plain',
         f"""
@@ -75,15 +67,11 @@ def contact():
     return 'Thank you for your message.'
 
 
-@app.route('/', methods=['GET'])
-def index():
-    return 'Hello, World!'
-
-
 @app.route('/test', methods=['POST', 'GET'])
 def test():
     return 'API works!'
 
+
 if __name__ == '__main__':
-    #TODO: Run test to check that the values in the conf file are valid
+    _test.run()
     app.run(debug=conf.DEBUG)
