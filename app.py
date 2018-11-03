@@ -5,16 +5,27 @@ from flask import Flask, render_template, request
 import sendgrid
 import os
 from sendgrid.helpers.mail import *
+import _configuration as conf
 
+# grab the SendGrid API key from the environment variable
 sg = sendgrid.SendGridAPIClient(apikey=os.environ.get('SENDGRID_API_KEY'))
 
 app = Flask(__name__)
 
-# read the email address from file
-EMAIL_TO = None
-with open('email_to.txt', 'r') as myfile:
-    EMAIL_TO=myfile.read().replace('\n', '')
-    EMAIL_TO=Email(EMAIL_TO)
+
+def send_email_to_sendgrid(email_from, subject, email_to, content):
+    mail = Mail(
+        email_from,
+        subject,
+        email_to,
+        content
+    )
+    response = sg.client.mail.send.post(request_body=mail.get())
+    print(f'New email sent.\n'
+          f'Status code: {response.status_code}'
+          f'Body: {response.body}'
+          f'Headers: {response.headers}')
+    print(content.value)
 
 
 @app.route('/contact', methods=['POST'])
@@ -29,29 +40,38 @@ def contact():
 
     content = Content('text/plain', f"""
     New message received from www.edmondchuc.com
-    
+
     Sender's details:    
     Name: {first_name} {last_name}
     Email: {email_from}
     Phone: {phone}
-    
+
     Message: 
     {message}
     """)
-
-    mail = Mail(
-        Email('notification@edmondchuc.com'), # the sender email
-        subject,
-        EMAIL_TO,
-        content
+    content = Content(
+        'text/plain',
+        f"""
+        New message received from the contact form at www.edmondchuc.com
+        
+        Sender's details:
+        Name: {first_name} {last_name}
+        Email: {email_from}
+        Phone: {phone}
+        
+        Message:
+        {message}    
+        """
     )
-    response = sg.client.mail.send.post(request_body=mail.get())
-    print(f'New email sent.\n'
-          f'Status code: {response.status_code}'
-          f'Body: {response.body}'
-          f'Headers: {response.headers}')
 
-    print(content.value)
+    for email in conf.EMAIL_RECEIVERS:
+        send_email_to_sendgrid(
+            Email(conf.EMAIL_SENDER),
+            subject,
+            Email(email),
+            content
+        )
+
     return 'Thank you for your message.'
 
 
@@ -62,17 +82,8 @@ def index():
 
 @app.route('/test', methods=['POST', 'GET'])
 def test():
-    # from_email = Email("test@example.com")
-    # to_email = Email("test2@example.com")
-    # subject = "[www.edmondchuc.com] Sending with SendGrid is Fun"
-    # content = Content("text/plain", "and easy to do anywhere, even with Python")
-    # mail = Mail(from_email, subject, to_email, content)
-    # response = sg.client.mail.send.post(request_body=mail.get())
-    # print(response.status_code)
-    # print(response.body)
-    # print(response.headers)
     return 'API works!'
 
 if __name__ == '__main__':
-    # app.run(debug=True)
-    app.run()
+    #TODO: Run test to check that the values in the conf file are valid
+    app.run(debug=conf.DEBUG)
