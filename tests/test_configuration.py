@@ -31,7 +31,7 @@ def test_email_list_has_valid_emails():
 def run():
     result = None
     try:
-        result = subprocess.call('pytest tests/test_configuration.py')
+        result = subprocess.run('pytest')
     except:
         pass
 
@@ -43,4 +43,3 @@ def run():
 
 if __name__ == '__main__':
     run()
-
