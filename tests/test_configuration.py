@@ -2,7 +2,6 @@ import re
 import configuration as conf
 import subprocess
 import pytest
-from inspect import *
 
 CONF_FILE_PATH = conf.__file__
 
