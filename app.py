@@ -6,7 +6,7 @@ import sendgrid
 import os
 from sendgrid.helpers.mail import *
 import configuration as conf
-from tests import test_configuration as test_
+import tests.test_configuration as tests
 
 # grab the SendGrid API key from the environment variable
 sg = sendgrid.SendGridAPIClient(apikey=os.environ.get('SENDGRID_API_KEY'))
@@ -73,6 +73,5 @@ def test():
 
 
 if __name__ == '__main__':
-    tests_passed = test_.run()
-    if tests_passed:
+    if tests.run() == 0:
         app.run(debug=conf.DEBUG)
