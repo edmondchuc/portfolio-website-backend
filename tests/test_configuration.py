@@ -1,47 +1,66 @@
 import re
 import configuration as conf
 import pytest
-import tests.helper as help
+import tests.helper as helper
 
 CONF_FILE_PATH = conf.__file__
 
-
-def test_email_sender_is_string(email=None):
-    lineno = None
-    if email is None:
-        email = conf.EMAIL_SENDER
-        lineno = help.get_lineno('EMAIL_SENDER', CONF_FILE_PATH)
-    else:
-        lineno = help.get_lineno(email, CONF_FILE_PATH)
-    if not isinstance(email, str):
-        raise TypeError(help.message(CONF_FILE_PATH, lineno, help.type_error_message(str, type(email))))
+# constant variables being tested against (used to reduce human error)
+EMAIL_SENDER = 'EMAIL_SENDER'
+EMAIL_RECEIVERS = 'EMAIL_RECEIVERS'
 
 
-def test_email_has_value(email=None):
-    email = conf.EMAIL_SENDER if email is None else email
-    lineno = help.get_lineno('EMAIL_SENDER', CONF_FILE_PATH)
-    assert len(email) is not 0, help.message(CONF_FILE_PATH, lineno, f'EMAIL_SENDER has not been assigned yet.')
+def email_is_string(email):
+    return isinstance(email, str)
 
 
-def test_email_is_valid(email=None):
-    email = conf.EMAIL_SENDER if email is None else email
+def email_string_is_not_empty(email):
+    if email_is_string(email):
+        return True if len(email) > 0 else False
+    return False
+
+
+def email_is_valid(email):
     pattern = r"[a-z0-9!#$%&'*+\/=?^_`{|}~-]+(?:\.[a-z0-9!#$%&'*+\/=?^_`{|}~-]+)*@(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?\.)+[a-z0-9](?:[a-z0-9-]*[a-z0-9])?"
-    result = re.search(pattern, email)
-    lineno = help.get_lineno(email, CONF_FILE_PATH)
-    assert result is not None, print(f'Error in {CONF_FILE_PATH}:{lineno}. Email: {email} is not a valid email.')
-    assert len(result.group()) == len(email), print(f'Email: {email} is not a valid email. Regex matched only a portion of the email. ')
+    return True if re.search(pattern, email) is not None else False
 
 
-def test_email_list_is_set():
-    lineno = help.get_lineno('EMAIL_RECEIVERS', CONF_FILE_PATH)
-    assert len(conf.EMAIL_RECEIVERS) > 0, print(f'{CONF_FILE_PATH}:{lineno}. EMAIL_RECEIVERS list require at least one valid email.')
+def test_email_sender_is_string():
+    lineno = helper.get_lineno(EMAIL_SENDER, CONF_FILE_PATH)
+    assert email_is_string(conf.EMAIL_SENDER), \
+    helper.message(
+        CONF_FILE_PATH, lineno,
+        helper.type_error_message(str, conf.EMAIL_SENDER)
+    )
 
 
-def test_email_list_has_valid_emails():
+def test_email_sender_string_is_not_empty():
+    lineno = helper.get_lineno(EMAIL_SENDER, CONF_FILE_PATH)
+    assert email_string_is_not_empty(conf.EMAIL_SENDER), \
+    helper.message(
+        CONF_FILE_PATH, lineno, f'{EMAIL_SENDER} string is empty.'
+    )
+
+
+def test_email_of_sender_is_valid():
+    lineno = helper.get_lineno(EMAIL_SENDER, CONF_FILE_PATH)
+    assert email_is_valid(conf.EMAIL_SENDER), \
+    helper.message(
+        CONF_FILE_PATH, lineno, f'The {EMAIL_SENDER} has been assigned with an invalid email: {conf.EMAIL_SENDER}'
+    )
+
+
+def test_email_receivers_are_valid():
     for email in conf.EMAIL_RECEIVERS:
-        test_email_sender_is_string(email)
-        test_email_has_value(email)
-        test_email_is_valid(email)
+        lineno = helper.get_lineno(email, CONF_FILE_PATH, search_from=EMAIL_RECEIVERS)
+        result = email_is_string(email)
+        assert result, \
+        helper.message(CONF_FILE_PATH, lineno, helper.type_error_message(str, email))
+        if result:
+            assert email_string_is_not_empty(email), \
+            helper.message(CONF_FILE_PATH, lineno, f'The {EMAIL_RECEIVERS} has an empty string as an email.')
+            assert email_is_valid(email), \
+            helper.message(CONF_FILE_PATH, lineno, f'{EMAIL_RECEIVERS} has an invalid email: {email}')
 
 
 def run():
