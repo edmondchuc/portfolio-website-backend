@@ -1,7 +1,5 @@
 """
-
-Helper functions for tests for the configuration file.
-
+Helper functions for tests.
 """
 
 

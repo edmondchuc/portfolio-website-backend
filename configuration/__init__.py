@@ -7,7 +7,7 @@ EMAIL_SENDER = 'notification@edmondchuc.com'
 # the list of emails of the receivers, each element a string
 EMAIL_RECEIVERS = [
     'edmond.chuc@gmail.com',
-    'edmond.chuc@outlook.com'
+    'edmond.chuc@outlook.com',
 ]
 
 # debug is on when True, change to False for production mode
