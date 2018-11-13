@@ -8,6 +8,7 @@ CONF_FILE_PATH = conf.__file__
 # constant variables being tested against (used to reduce human error)
 EMAIL_SENDER = 'EMAIL_SENDER'
 EMAIL_RECEIVERS = 'EMAIL_RECEIVERS'
+WEBSITE_DOMAIN = 'WEBSITE_DOMAIN'
 
 
 def email_is_string(email):
@@ -63,9 +64,24 @@ def test_email_receivers_are_valid():
             helper.message(CONF_FILE_PATH, lineno, f'{EMAIL_RECEIVERS} has an invalid email: {email}')
 
 
+def test_website_domain_is_a_string():
+    lineno = helper.get_lineno(WEBSITE_DOMAIN, CONF_FILE_PATH)
+    assert isinstance(conf.WEBSITE_DOMAIN, str), \
+    helper.message(CONF_FILE_PATH, lineno, helper.type_error_message(str, conf.WEBSITE_DOMAIN))
+
+
+def test_website_domain_is_set():
+    lineno = helper.get_lineno(WEBSITE_DOMAIN, CONF_FILE_PATH)
+    assert len(conf.WEBSITE_DOMAIN) > 0, \
+    helper.message(CONF_FILE_PATH, lineno, f'{WEBSITE_DOMAIN} has not been set.')
+
+
+
+
 def run():
     return pytest.main()
 
 
 if __name__ == '__main__':
     run()
+#TODO: make the tests on strings and type to be independent. The test that checks the length will result in type error if it's not a string.

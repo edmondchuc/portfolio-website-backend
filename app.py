@@ -39,12 +39,12 @@ def contact():
     message = request.form.get('message')
 
     # subject of the email
-    subject = f'[www.edmondchuc.com] New message from {first_name}'
+    subject = f'[{conf.WEBSITE_DOMAIN}] New message from {first_name}'
 
     content = Content(
         'text/plain',
         f"""
-        New message received from the contact form at www.edmondchuc.com
+        New message received from the contact form at {conf.WEBSITE_DOMAIN}
         
         Sender's details:
         Name: {first_name} {last_name}
@@ -74,4 +74,6 @@ def test():
 
 if __name__ == '__main__':
     if tests.run() == 0:
+        #TODO: add tests for sendgrid environment variable to ensure it is set.
+        #TODO: move the website domain to the config file and add tests for it.
         app.run(debug=conf.DEBUG)

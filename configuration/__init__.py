@@ -1,6 +1,5 @@
-#
-# This file contains the configurations for this web API
-#
+# the website domain containing the contact form
+WEBSITE_DOMAIN = 'www.edmondchuc.com'
 
 # the email of the sender as a string of characters
 EMAIL_SENDER = 'notification@edmondchuc.com'
