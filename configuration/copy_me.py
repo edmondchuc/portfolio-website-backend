@@ -3,7 +3,7 @@
 Attention!
 ==========
 
-Please create a new file named '__init__.py' in the current directory and copy all the details in this file to it.
+Please create a new file named '__init__.py' in the current directory (configuration) and copy all the details in this file to it.
 Change the configurations to fit your purposes.
 
 This file contains the configurations for this web API.

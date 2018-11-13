@@ -1,9 +1,13 @@
 import re
-import configuration as conf
 import pytest
 import tests.helper as helper
+import configuration as conf
 
-CONF_FILE_PATH = conf.__file__
+try:
+    CONF_FILE_PATH = conf.__file__
+except:
+    print(f'The \'__init__.py\' file has not been set. Please see \'configuration/copy_me.py\' for more details')
+    exit(1)
 
 # constant variables being tested against (used to reduce human error)
 EMAIL_SENDER = 'EMAIL_SENDER'
@@ -99,9 +103,13 @@ def test_website_domain_is_a_string_and_has_been_set():
         helper.message(CONF_FILE_PATH, lineno, f'{WEBSITE_DOMAIN} has not been set.')
 
 
-
-
 def run():
+    """
+    Run pytest on the test suite.
+
+    :return: Return zero if no failures, else, any other number is regarded as a failed test occurred.
+    :rtype: int
+    """
     return pytest.main()
 
 

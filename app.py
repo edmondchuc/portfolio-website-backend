@@ -74,6 +74,5 @@ def test():
 
 if __name__ == '__main__':
     if tests.run() == 0:
-        #TODO: add tests for sendgrid environment variable to ensure it is set.
-        #TODO: move the website domain to the config file and add tests for it.
+        # TODO: add tests for sendgrid environment variable to ensure it is set.
         app.run(debug=conf.DEBUG)
