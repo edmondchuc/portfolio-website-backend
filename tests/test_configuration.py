@@ -2,6 +2,8 @@ import re
 import pytest
 import tests.helper as helper
 import configuration as conf
+import os
+import sendgrid
 
 try:
     CONF_FILE_PATH = conf.__file__
@@ -101,6 +103,12 @@ def test_website_domain_is_a_string_and_has_been_set():
         helper.message(CONF_FILE_PATH, lineno, helper.type_error_message(str, conf.WEBSITE_DOMAIN))
     assert len(conf.WEBSITE_DOMAIN) > 0, \
         helper.message(CONF_FILE_PATH, lineno, f'{WEBSITE_DOMAIN} has not been set.')
+
+
+def test_sendgrid_environment_variable_is_set():
+    sg = sendgrid.SendGridAPIClient(apikey=os.environ.get('SENDGRID_API_KEY'))
+    assert len(sg.apikey) > 0, \
+        print('The environment variable for \'SENDGRID_API_KEY\' has not been set.')
 
 
 def run():
