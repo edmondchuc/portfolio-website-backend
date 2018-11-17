@@ -1,3 +1,7 @@
+"""
+This file contains the tests to valid the configuration file.
+"""
+
 import re
 import pytest
 import tests.helper as helper
