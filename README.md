@@ -19,6 +19,9 @@ Run the application `app.py`.
 ## Tests
 Validation tests for the user configuration settings can be found in the `tests` directory.
 
+## Notes
+1. After every pull, set the bash script permissions.
+
 ## Contact
 Edmond Chuc  
 www.edmondchuc.com
