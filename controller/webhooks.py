@@ -13,4 +13,3 @@ def on_portfolio_website_push(data):
     print(f'Received push from: {full_name}')
     if full_name == 'edmondchuc/portfolio-website':
         subprocess.call('./github_webhook_bash_scripts/portfolio_asset_mv.sh')
-        

@@ -1,3 +1,5 @@
+#!/usr/bin/env bash
+
 msg='webhook-api'
 
 echo $msg: Changing directory to ~
