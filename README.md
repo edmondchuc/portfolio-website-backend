@@ -9,7 +9,8 @@ The website's API:
 
 ### GitHub Webhook
 `/api/postreceive`
-This webhook currently automatically copies the `index.html`, `static/css/*` and `static/img/*` to the Apache directories. 
+This webhook currently automatically copies the `index.html`, `static/css/*` and `static/img/*` to the Apache directories.
+See this URL for more information. https://github.com/bloomberg/python-github-webhook 
 
 ## SendGrid Flask API
 This is a very simple and extensible Flask application for sending emails via a RESTful API. 

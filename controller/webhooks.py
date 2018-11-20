@@ -11,45 +11,21 @@ webhook = Webhook(webhook_blueprint) # register GitHub webhook and define '/post
 GITHUB_WEBHOOK_BASH_SCRIPTS_PATH = './github_webhook_bash_scripts'
 
 
-def get_full_name(data):
-    """
-    Return the full_name of the GitHub data object.
-
-    :param data: GitHub data object as JSON.
-    :type data: JSON
-    :return: str
-    :rtype: str
-    """
-    return data['repository']['full_name']
-
-
 @webhook.hook() # defines a handler for the 'push' event.
 def on_portfolio_website_push(data):
     """
-    This route is called when GitHub provides a push from my portfolio-website repository.
+    This route is called when GitHub's webhook makes a request with a JSON payload. It executes a bash script depending
+    on the :code:`full_name` key's value in the JSON payload.
 
-    :param data: GitHub data object as JSON.
+    :param data: GitHub JSON payload.
     :type data: JSON
     :return: None
     :rtype: None
     """
-    full_name = get_full_name(data)
+    full_name = data['repository']['full_name']
     print(f'Received push from: {full_name}')
     if full_name == 'edmondchuc/portfolio-website':
         subprocess.call(os.path.join(GITHUB_WEBHOOK_BASH_SCRIPTS_PATH, 'portfolio_asset_mv.sh'))
-
-
-@webhook.hook()
-def on_blog_site_push(data):
-    """
-    This route is called when GitHub provides a push from my blog-site repository.
-
-    :param data: GitHub data object as JSON.
-    :type data: JSON
-    :return: None
-    :rtype: None
-    """
-    full_name = get_full_name(data)
-    print(f'Received push from: {full_name}')
-    if full_name == 'edmondchuc/blog-site':
+    elif full_name == 'edmondchuc/blog-site':
         subprocess.call(os.path.join(GITHUB_WEBHOOK_BASH_SCRIPTS_PATH, 'build-blog-and-deploy.sh'))
+
