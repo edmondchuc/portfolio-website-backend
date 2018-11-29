@@ -11,7 +11,7 @@ import configuration as conf
 contact_form = Blueprint('contact_form', __name__)
 
 # grab the SendGrid API key from the environment variable
-sg = sendgrid.SendGridAPIClient(apikey=os.environ.get('SENDGRID_API_KEY'))
+sg = sendgrid.SendGridAPIClient(apikey=conf.SENDGRID_API_KEY)
 
 
 def send_email_to_sendgrid(email_from, subject, email_to, content):
