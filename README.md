@@ -9,8 +9,11 @@ The website's API:
 
 ### GitHub Webhook
 `/api/postreceive`
-This webhook currently automatically copies the `index.html`, `static/css/*` and `static/img/*` to the Apache directories.
-See this URL for more information. https://github.com/bloomberg/python-github-webhook 
+- This webhook currently automatically copies the `index.html`, `static/css/*` and `static/img/*` to the Apache directories. This is for the main *portfolio website* content.
+
+- This webhook automatically builds and copies the static files of the blog website to its relevant Apache drectories. 
+
+See this URL for more information about the webhook library in use. https://github.com/bloomberg/python-github-webhook 
 
 ## SendGrid Flask API
 This is a very simple and extensible Flask application for sending emails via a RESTful API. 
@@ -34,7 +37,7 @@ Run the application `app.py`.
 Ensure that the bash scripts have correct permissions (744).
 
 ## Tests
-Validation tests for the user configuration settings can be found in the `tests` directory.
+Validation tests for the user configuration settings can be found in the `tests` directory. This will check if each required option is set correctly. 
 
 ## Notes
 1. After every pull, set the bash script permissions.
