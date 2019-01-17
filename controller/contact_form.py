@@ -41,9 +41,10 @@ def contact():
     # subject of the email
     subject = f'[{conf.WEBSITE_DOMAIN}] New message from {first_name}'
 
+    # TODO: this is being used because some bot keeps spamming me. proper fix would be to use captcha on the client
     message.strip()
     if message == '':
-        message = 'The message is empty.'
+        return 'Thank you for your message.'
 
     content = Content(
         'text/plain',
