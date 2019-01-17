@@ -41,6 +41,7 @@ def contact():
     # subject of the email
     subject = f'[{conf.WEBSITE_DOMAIN}] New message from {first_name}'
 
+    message.strip()
     if message == '':
         message = 'The message is empty.'
 
