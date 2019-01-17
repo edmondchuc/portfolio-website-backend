@@ -19,6 +19,7 @@ except:
 EMAIL_SENDER = 'EMAIL_SENDER'
 EMAIL_RECEIVERS = 'EMAIL_RECEIVERS'
 WEBSITE_DOMAIN = 'WEBSITE_DOMAIN'
+SENDGRID_API_KEY = 'SENDGRID_API_KEY'
 
 
 def email_is_string(email):
@@ -110,9 +111,12 @@ def test_website_domain_is_a_string_and_has_been_set():
 
 
 def test_sendgrid_environment_variable_is_set():
-    sg = sendgrid.SendGridAPIClient(apikey=os.environ.get('SENDGRID_API_KEY'))
-    assert len(sg.apikey) > 0, \
+    lineno = helper.get_lineno(SENDGRID_API_KEY, CONF_FILE_PATH)
+    sg = sendgrid.SendGridAPIClient(apikey=conf.SENDGRID_API_KEY)
+    assert sg.api_key is not None, \
         print('The environment variable for \'SENDGRID_API_KEY\' has not been set.')
+    assert isinstance(sg.api_key, str), \
+        helper.message(CONF_FILE_PATH, lineno, helper.type_error_message(str, conf.SENDGRID_API_KEY))
 
 
 def run():

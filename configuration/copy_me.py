@@ -15,7 +15,14 @@ This file contains the configurations for this web API.
 
 # -*- coding: utf-8 -*-
 #
-# Configuration file for the backend service.
+# Configuration file for the backend service
+# -------------------------------------------
+
+
+# -- SendGrid API Settings ---------------------------------------------------------------------------------------------
+
+
+SENDGRID_API_KEY = ''
 
 
 # -- Contact Form API Settings -----------------------------------------------------------------------------------------

@@ -35,15 +35,15 @@ echo $msg: Build the content with 'pelican content' command
 pelican content
 
 echo $msg: Check if ~/var/www/edmondchuc.com/html/blog/ exists
-if [ ! -d "~/var/www/edmondchuc.com/html/blog/" ]; then
+if [ ! -d "/var/www/edmondchuc.com/html/blog/" ]; then
 	echo $msg: ERROR! Directory does not exist. Please create it manually with sudo and assign permissions correctly to the user.
 	exit 1
 fi
 
 echo $msg: Removing existing files in ~/var/www/edmondchuc.com/html/blog/
-rm -r ~/var/www/edmondchuc.com/html/blog/*
+rm -r /var/www/edmondchuc.com/html/blog/*
 
 echo $msg: Copying output of pelican to ~/var/www/edmondchuc.com/html/blog/
-cp -r output/* ~/var/www/edmondchuc.com/html/blog
+cp -r output/* /var/www/edmondchuc.com/html/blog
 
 echo Built and deployed successfully
